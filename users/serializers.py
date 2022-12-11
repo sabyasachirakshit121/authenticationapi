@@ -18,8 +18,7 @@ class AuthUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name',
-                  'last_name', 'is_active', 'is_staff')
+        fields = ("__all__")
         read_only_fields = (
             'id', 'is_active', 'is_staff')
 
@@ -39,7 +38,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name')
+        fields = ("__all__")
 
     def validate_email(self, value):
         user = User.objects.filter(email=value)
