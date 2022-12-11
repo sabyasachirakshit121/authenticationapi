@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -34,6 +34,12 @@ class AuthViewSet(viewsets.GenericViewSet):
         user = create_user_account(**serializer.validated_data)
         data = serializers.AuthUserSerializer(user).data
         return Response(data=data, status=status.HTTP_201_CREATED)
+
+    @action(methods=['POST', ], detail=False)
+    def logout(self, request):
+        logout(request)
+        data = {'success': 'Sucessfully logged out'}
+        return Response(data=data, status=status.HTTP_200_OK)
 
     def get_serializer_class(self):
         if not isinstance(self.serializer_classes, dict):
