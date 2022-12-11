@@ -42,7 +42,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password', 'first_name', 'last_name')
 
     def validate_email(self, value):
-        user = User.objects.filter(email=email)
+        user = User.objects.filter(email=value)
         if user:
             raise serializers.ValidationError("Email is already taken")
         return BaseUserManager.normalize_email(value)
