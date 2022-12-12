@@ -9,7 +9,14 @@ from . import serializers
 from .utils import get_and_authenticate_user, create_user_account
 
 User = get_user_model()
-
+#"auth_token": "5fb17e173d5347b8248fc332f5d9579112550206",
+# {
+#     "email": "abc@example.com",
+#     "password": "this is the password12345",
+#     "first_name": "abc",
+#     "last_name": "def",
+#     "username":"abc"
+# }
 
 class AuthViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]

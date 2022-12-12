@@ -23,8 +23,9 @@ class AuthUserSerializer(serializers.ModelSerializer):
             'id', 'is_active', 'is_staff')
 
     def get_auth_token(self, obj):
-        token = Token.objects.create(user=obj)
-        return token.key
+        token = Token.objects.get_or_create(user=obj)
+        print(token)
+        return token[1]
 
 
 class EmptySerializer(serializers.Serializer):
