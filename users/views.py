@@ -1,4 +1,7 @@
-
+from django.views.generic import View
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.shortcuts import redirect
 from django.contrib.auth import get_user_model, logout
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import viewsets, status
@@ -10,16 +13,6 @@ from . import serializers
 from .utils import get_and_authenticate_user, create_user_account
 
 User = get_user_model()
-#"auth_token": "5fb17e173d5347b8248fc332f5d9579112550206",
-# {
-#     "email": "abc@example.com",
-#     "password": "this is the password12345",
-#     "first_name": "abc",
-#     "last_name": "def",
-#     "username":"abc"
-# }
-
-
 
 class AuthViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]
@@ -69,3 +62,27 @@ class AuthViewSet(viewsets.GenericViewSet):
         if self.action in self.serializer_classes.keys():
             return self.serializer_classes[self.action]
         return super().get_serializer_class()
+
+
+class SendFormEmail(View):
+
+    def get(self, request):
+
+        # Get the form data
+        name = request.GET.get('name', None)
+        email = request.GET.get('email', None)
+        message = request.GET.get('message', None)
+
+        # Send Email
+        send_mail(
+            'Subject - Django Email Testing',
+            'Hello ' + name + ',\n' + message,
+            'sender@example.com',  # Admin
+            [
+                email,
+            ]
+        )
+
+        # Redirect to same page after form submit
+        messages.success(request, ('Email sent successfully.'))
+        return redirect('home')
